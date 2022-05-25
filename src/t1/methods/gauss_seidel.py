@@ -8,10 +8,14 @@ from copy import deepcopy
 from src.utils.operations import *
 
 class GaussSeidel:
-    def procedimento_iterativo_GaussSeidel(self, A, B, tol = 0.0001,X=None, limit = 500):
+    def __init__(self):
+        self.feedback = "Sucesso"
+
+    def procedimento_iterativo_GaussSeidel(self, A, B, tol, limit = 500):
         if (not is_diag_dominant(A)):
             if (not is_definite_positive(A)):
-                raise ValueError("O método de Gauss-Seidel não irá convergir!")
+                self.feedback = "O método de Gauss-Seidel não irá convergir!"
+                return
         prevX = random_array(B.shape)
         r = 1000
         n = B.shape[0]

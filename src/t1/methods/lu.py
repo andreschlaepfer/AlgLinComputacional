@@ -8,7 +8,11 @@ from copy import deepcopy
 from src.utils.operations import *
 
 class LU:
-    def decomposicao_LU(self, A, shouldReturnDet = True, return_det=False, show_warnings=True):
+    def __init__(self, return_det):
+        self.return_det = return_det
+        self.feedback = "Sucesso"
+
+    def decomposicao_LU(self, A):
         L = np.eye(A)
         U = np.copy(A)  
         n = np.shape(U)[0] 
@@ -19,19 +23,20 @@ class LU:
                     for k in np.arange(j+1,n):  
                         U[i,k] = U[i,k] - L[i,j]*U[j,k]  
                     U[i,j] = 0
-        det = self.get_determinant_if_needed(U, shouldReturnDet)
+        det = self.get_determinant_if_needed(U, self.return_det)
         return L, U, det
 
-    def get_determinant_if_needed(self, U, shouldReturnDet):
-        if(not shouldReturnDet):
-            return "Não foi pedido que a determinante seja retornada"
+    def get_determinant_if_needed(self, U):
+        if(not self.return_det):
+            self.feedback = "Não foi pedido que a determinante seja retornada"
+            return
         det = 1
         for i in range(U.shape[0]):
             for j in range(U.shape[1]):
                 if (i == j):
                     det *= U[i][j]
         if (det == 0):
-            print ("Matriz singular!")
+            self.feedback = "Matriz singular"
         return det
 
     def solve(self, A, B):

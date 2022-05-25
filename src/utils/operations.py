@@ -1,5 +1,6 @@
 import math
 import copy
+from re import M
 import numpy as np
 from numpy import array, zeros, diag, diagflat, dot, linalg
 
@@ -20,6 +21,21 @@ def det(A):
         product *= AM[i][i]  
     return product
 
+def get_m2_inverse(A):
+    detA = (A[0][0] * A[1][1]) - (A[0][1] * A[1][0])
+    if(detA == 0):
+        return 0
+    m = 1/detA
+    a00 = A[1][1]*m
+    a01 = A[0][1]*m
+    a10 = A[1][0]*m
+    a11 = A[1][1]*m
+    Ai = []
+    Ai.append([a00, a01])
+    Ai.append([a10, a11])
+    return Ai
+
+
 def forward_substitution(L, b):
     n = L.shape[0]
     y = np.zeros_like(b, dtype=np.double); 
@@ -27,6 +43,7 @@ def forward_substitution(L, b):
     for i in range(1, n):
         y[i] = (b[i] - np.dot(L[i,:i], y[:i])) / L[i,i]        
     return y
+
 def back_substitution(U, y):   
     n = U.shape[0]
     x = np.zeros_like(y, dtype=np.double);
