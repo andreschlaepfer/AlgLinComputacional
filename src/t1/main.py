@@ -40,10 +40,9 @@ def main():
         result = full_it_result[0]
         counter = full_it_result[1]
         logs = full_it_result[2]
-
     elif(icod == 4):
         isIterative = True
-        jacobi_solution = Jacobi()
+        jacobi_solution = GaussSeidel()
         tol = float(input('Valor de TOLm: '))
         full_it_result = jacobi_solution.procedimento_iterativo_GaussSeidel(mA,vB, tol)
         feedback = jacobi_solution.feedback
@@ -51,7 +50,9 @@ def main():
         counter = full_it_result[1]
         logs = full_it_result[2]
 
-    print(result)
+    print(f"A: {mA}")
+    print(f"B: {vB}")
+    print(f"Vetor Solucao: {result}")
 
     output_file_path = input('Arquivo de saída: ')
     if(output_file_path == ""):

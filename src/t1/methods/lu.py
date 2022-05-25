@@ -36,7 +36,7 @@ class LU:
                 if (i == j):
                     det *= U[i][j]
         if (det == 0):
-            self.feedback = "Matriz singular"
+            self.feedback = "Matriz singular!"
         return det
 
     def solve(self, A, B):

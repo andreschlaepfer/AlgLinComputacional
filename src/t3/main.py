@@ -1,0 +1,31 @@
+from src.t3.methods.interpolation import Interpolation
+from src.t3.methods.regression import Regression
+
+def main():
+    icod = int(input('ICOD: '))
+    n = int(input('Número de pontos: '))
+    points = []
+    for i in range(n):
+        x, y = map(float, input("Pontos X e Y: ").split())
+        points.append([x,y])
+
+    xp = float(input('Para qual X deseja calcular o valor Y?: '))
+    
+    if(icod == 1):
+        interpolation_solution = Interpolation(points)
+        result = interpolation_solution.get_lagrangian_interpolation_yp_from_xp(xp)
+
+    elif(icod == 2):
+        regression_solution = Regression(points)
+        result = regression_solution.linear_regression(xp)
+
+    output_file_path = input('Arquivo de saída: ')
+    if(output_file_path == ""):
+        output_file_path = "out.py"
+
+    with open(output_file_path, 'w') as output_file:
+        output_file.write(f"Valor de y: {result}\n")
+
+        
+
+

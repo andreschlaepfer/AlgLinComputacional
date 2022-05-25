@@ -35,7 +35,6 @@ def get_m2_inverse(A):
     Ai.append([a10, a11])
     return Ai
 
-
 def forward_substitution(L, b):
     n = L.shape[0]
     y = np.zeros_like(b, dtype=np.double); 
@@ -56,7 +55,7 @@ def random_array(shape):
   import random
   random.seed()
   if len(shape) != 2:
-    raise ValueError("Shape must have two values!")
+    raise ValueError("Erro em gerray array aleatorio. Tamanho passado deve ter 2 valores")
   res = []
   for i in range(shape[0]):
     res.append([])
@@ -90,3 +89,41 @@ def get_residue(prevX, currX):
   numerador = linalg.norm(currX - prevX)
   denominador = linalg.norm(currX)
   return numerador/denominador
+
+def greaterValueOffDiagonal(A):
+  shapeA = np.shape(A)
+  greaterValue, greaterValue_i, greaterValue_j = 0
+
+  for i in range(len(A)):
+    for j in range(len(A)):
+      if (i != j):
+        delta = abs(A[i,j])
+        if delta > greaterValue:
+          greaterValue = delta
+          greaterValue_i = i
+          greaterValue_j = j
+  return greaterValue, greaterValue_i, greaterValue_j
+
+def pMatrixGen(A, i, j):
+  if (A[i,i] != A[j,j]):
+    phi = 1. / 2. * math.atan((2 * A[i,j]) / (A[i,i] - A[j,j])) #calculate phi value
+  else:
+    phi = math.pi / 4
+  shape = np.shape(A) 
+  p = np.identity(shape)
+  p[i][i] = math.cos(phi)
+  p[i][j] = -math.sin(phi)
+  p[j][i] = math.sin(phi)
+  p[j][j] = math.cos(phi)
+  return p
+
+def isSymetric(A):
+  matrixB = A.transpose()
+
+  if A.shape == matrixB.shape:
+    if (A == matrixB).all():
+          return True
+    else:
+        return False    
+  else:
+      return False
