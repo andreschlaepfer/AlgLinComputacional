@@ -56,7 +56,7 @@ def main():
 
     output_file_path = input('Arquivo de saída: ')
     if(output_file_path == ""):
-        output_file_path = "out.py"
+        output_file_path = "out.txt"
 
     with open(output_file_path, 'w') as output_file:
         output_file.write(f"Vetor Solução: {result}\n")
@@ -66,10 +66,5 @@ def main():
             output_file.write(f"Número de iterações para convergência: {counter}\n")
             output_file.write(f"Variação do erro nas iterações: {logs}\n")
         output_file.write(f"Feedback: {feedback}\n")
-
-  
-    print(f"A: {mA}")
-    print(f"B: {vB}")
-        
 
 

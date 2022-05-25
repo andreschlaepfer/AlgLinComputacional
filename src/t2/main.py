@@ -15,13 +15,10 @@ def run():
     if(icod == 2):
         eigen_jacobi_solution = EigenJacobi()
 
-
-    print(solution)
-
     output_file_path = input('Arquivo de saída: ')
 
     with open(output_file_path, 'w') as output_file:
         output_file.write(f"Autovetor: {autovetor}\n")
         output_file.write(f"Autovalor: {autovalor}\n")
         output_file.write(f"Determinante: {det}")
-    print("Arquivo de saída gerado com sucesso!")
+        output_file.write(f"Feedback: {feedback}")

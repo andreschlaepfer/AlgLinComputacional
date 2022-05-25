@@ -21,7 +21,7 @@ def main():
 
     output_file_path = input('Arquivo de saída: ')
     if(output_file_path == ""):
-        output_file_path = "out.py"
+        output_file_path = "out.txt"
 
     with open(output_file_path, 'w') as output_file:
         output_file.write(f"Valor de y: {result}\n")
