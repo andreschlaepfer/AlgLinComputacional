@@ -8,30 +8,15 @@ class Cholesky:
         self.feedback = "Sucesso"
 
     def decomposicao_Cholesky(self, A):
-        n = np.shape(A)[0]
-        if n != np.shape(A)[1]:
-            self.feedback  = "Matriz A não é quadrada!"
-            return
-
-        Lo = [[0 for x in range(n + 1)]
-                        for y in range(n + 1)]
-
+        n = len(A)
+        Lo = [[0.0] * n for i in range(n)]
         for i in range(n):
-            for j in range(i + 1):
-                sum1 = 0
-                if (j == i):
-                    for k in range(j):
-                        sum1 += pow(Lo[j][k], 2)
-                    Lo[j][j] = int(math.sqrt(A[j][j] - sum1))
+            for k in range(i+1):
+                tmp_sum = sum(Lo[i][j] * Lo[k][j] for j in range(k))
+                if (i == k): 
+                    Lo[i][k] = math.sqrt(A[i][i] - tmp_sum)
                 else:
-                    for k in range(j):
-                        sum1 += (Lo[i][k] *Lo[j][k])
-                    if(Lo[j][j] > 0):
-                        Lo[i][j] = int((A[i][j] - sum1) /
-                                                Lo[j][j])
-        
-
-
+                    Lo[i][k] = (1.0 / Lo[k][k] * (A[i][k] - tmp_sum))
         det = self.determinant(Lo)
         return Lo, det
 
@@ -39,13 +24,14 @@ class Cholesky:
         if (self.return_det == False):
             return NULL
         det = 1
-        for i in range(L.shape[0]):
+        for i in range(len(L)):
             det = det*L[i][i]
         return det*det
     
     def solve(self, A, B):
         Lo, det = self.decomposicao_Cholesky(A) 
+        Lo = np.matrix(Lo)
         Lot = Lo.T 
-        y = forward_substitution(Lo, Lot)    
+        y = forward_substitution(Lo, B)    
         return back_substitution(Lot, y), det
 

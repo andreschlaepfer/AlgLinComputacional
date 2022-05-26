@@ -6,6 +6,7 @@ from src.utils.operations import *
 class Regression:
     def __init__(self, points):
         self.points = points
+        self.feedback = "Sucesso"
         self.n = len(self.points)
         self.m = self.n -1
         self.x = [i[0] for i in self.points]
@@ -26,7 +27,7 @@ class Regression:
     def get_multiplied_sum(self, arr1, arr2):
         sum = 0
         for i in arr1:
-            sum += i*arr2[i]
+            sum += i*arr2[arr1.index(i)]
         return sum
 
     def linear_regression(self, xp):
@@ -47,10 +48,19 @@ class Regression:
         C.append(c21)
         Ai = get_m2_inverse(A)
         if(Ai == 0):
+            self.feedback = "Determinante de A = 0"
             raise ValueError("Determinante de A = 0")
 
-        B = np.dot(Ai, C)
+        #Ai = np.matrix(Ai)
+        #C = np.matrix(C)
+        #B = np.dot(Ai, C.T)
+        B = multiply_matrix_vector(Ai, C)
 
         a, b = B[1], B[0]
-        
-        return a*self.xp + b
+        plt.plot(self.x, self.y, 'ro')
+        plt.xlabel('x')
+        plt.ylabel('y')
+        yp = a*xp + b
+        plt.plot(xp, yp, 'bo')
+        plt.show()
+        return a*xp + b

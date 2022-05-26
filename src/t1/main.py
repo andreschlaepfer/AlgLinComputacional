@@ -3,7 +3,7 @@ from src.t1.methods.lu import LU
 from src.t1.methods.cholesky import Cholesky
 from src.t1.methods.jacobi import Jacobi
 from src.t1.methods.gauss_seidel import GaussSeidel
-
+import numpy as np
 
 def main():
 
@@ -14,18 +14,18 @@ def main():
     vB = getVectorB(vector_B_file_path)
     icod = int(input('ICOD: '))
     idet = int(input('IDET: '))
+    return_det = False
+    if(idet > 0):
+        return_det = True
     isIterative = False
     if(icod == 1):
-        if(idet == 0):
-            lu_solution = LU(False)
-        elif (idet > 0):
-            lu_solution = LU(True)
+        lu_solution = LU(return_det)
         full_result = lu_solution.solve(mA,vB)
         result = full_result[0]
         det = full_result[1]
         feedback = lu_solution.feedback
     elif(icod == 2):
-        cholesky_solution = Cholesky()
+        cholesky_solution = Cholesky(return_det)
         full_result = cholesky_solution.solve(mA,vB)
         result = full_result[0]
         det = full_result[1]
@@ -49,8 +49,8 @@ def main():
         counter = full_it_result[1]
         logs = full_it_result[2]
 
-    print(f"A: {mA}")
-    print(f"B: {vB}")
+    print(f"A: {np.matrix(mA)}")
+    print(f"B: {np.array(vB)}")
     print(f"Vetor Solucao: {result}")
 
     output_file_path = input('Arquivo de saída: ')
@@ -58,12 +58,12 @@ def main():
         output_file_path = "out.txt"
 
     with open(output_file_path, 'w') as output_file:
-        output_file.write(f"Vetor Solução: {result}\n")
+        output_file.write(f"Vetor Solucao: {np.array(result)}\n")
         if(not isIterative):
             output_file.write(f"Determinante: {det}\n")
         if(isIterative):
-            output_file.write(f"Número de iterações para convergência: {counter}\n")
-            output_file.write(f"Variação do erro nas iterações: {logs}\n")
+            output_file.write(f"Numero de iteracoes para convergencia: {counter}\n")
+            output_file.write(f"Variacao do erro nas iteracoes: {logs}\n")
         output_file.write(f"Feedback: {feedback}\n")
 
 

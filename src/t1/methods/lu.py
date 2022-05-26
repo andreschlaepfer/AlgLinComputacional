@@ -13,7 +13,7 @@ class LU:
         self.feedback = "Sucesso"
 
     def decomposicao_LU(self, A):
-        L = np.eye(A)
+        L = np.eye(len(A))
         U = np.copy(A)  
         n = np.shape(U)[0] 
         j = 1
@@ -23,7 +23,7 @@ class LU:
                     for k in np.arange(j+1,n):  
                         U[i,k] = U[i,k] - L[i,j]*U[j,k]  
                     U[i,j] = 0
-        det = self.get_determinant_if_needed(U, self.return_det)
+        det = self.get_determinant_if_needed(U)
         return L, U, det
 
     def get_determinant_if_needed(self, U):

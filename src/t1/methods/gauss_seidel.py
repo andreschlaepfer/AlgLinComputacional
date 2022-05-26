@@ -12,15 +12,15 @@ class GaussSeidel:
         self.feedback = "Sucesso"
 
     def procedimento_iterativo_GaussSeidel(self, A, B, tol, limit = 500):
+        counter = 0
+        r_logs = []
         if (not is_diag_dominant(A)):
             if (not is_definite_positive(A)):
                 self.feedback = "O método de Gauss-Seidel não irá convergir!"
-                return
+                return None, 0, r_logs
         prevX = random_array(B.shape)
         r = 1000
         n = B.shape[0]
-        counter = 0
-        r_logs = []
         while (counter <= limit):
             X = zeros(B.shape)
             for i in range(X.shape[0]):
@@ -33,6 +33,6 @@ class GaussSeidel:
             r = get_residue(prevX, X)
             r_logs += [r]
             if(get_residue(prevX, X) <= tol):
-                return X
+                return X, counter, r_logs
             prevX = deepcopy(X)
         return X, counter, r_logs

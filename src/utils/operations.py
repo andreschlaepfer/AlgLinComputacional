@@ -72,44 +72,48 @@ def is_definite_positive (A):
       return False
   return True
 
+
 def is_diag_dominant(A):
-  dom = zeros((A.shape[0], 1))
-  for i in range(A.shape[0]):
-    for j in range(A.shape[1]):
-      if (i != j):
-        dom[i][0] += abs(A[i][j])
-  for i in range(A.shape[0]):
-    for j in range(A.shape[1]):
-      if (i == j):
-        if (abs(A[i][j]) < dom[i][0]):
-          return False
-  return True
+    for i in range(len(A)):
+        l_sum = 0
+        col_sum = 0
+        for j in range(len(A)):
+            if (i != j):
+                l_sum += math.fabs(A[i][j])
+                col_sum += math.fabs(A[j][i])
+
+        if(A[i][i] < l_sum or A[i][i] < col_sum):
+            return False
+
+    return True
 
 def get_residue(prevX, currX):
   numerador = linalg.norm(currX - prevX)
   denominador = linalg.norm(currX)
   return numerador/denominador
 
-def greaterValueOffDiagonal(A):
-  shapeA = np.shape(A)
-  greaterValue, greaterValue_i, greaterValue_j = 0
+def greaterValueOffDiagonal(matrixA):
+  shapeA = len(matrixA)
+  greaterValue = 0
+  greaterValue_i = 0
+  greaterValue_j = 0
 
-  for i in range(len(A)):
-    for j in range(len(A)):
+  for i in range(shapeA):
+    for j in range(shapeA):
       if (i != j):
-        delta = abs(A[i,j])
-        if delta > greaterValue:
-          greaterValue = delta
+        value = abs(matrixA[i][j])
+        if value > greaterValue:
+          greaterValue = value
           greaterValue_i = i
           greaterValue_j = j
   return greaterValue, greaterValue_i, greaterValue_j
 
 def pMatrixGen(A, i, j):
-  if (A[i,i] != A[j,j]):
-    phi = 1. / 2. * math.atan((2 * A[i,j]) / (A[i,i] - A[j,j])) #calculate phi value
+  if (A[i][i] != A[j][j]):
+    phi = 1. / 2. * math.atan((2 * A[i][j]) / (A[i][i] - A[j][j])) 
   else:
     phi = math.pi / 4
-  shape = np.shape(A) 
+  shape = len(A) 
   p = np.identity(shape)
   p[i][i] = math.cos(phi)
   p[i][j] = -math.sin(phi)
@@ -117,13 +121,26 @@ def pMatrixGen(A, i, j):
   p[j][j] = math.cos(phi)
   return p
 
-def isSymetric(A):
-  matrixB = A.transpose()
+def multiply_matrix_vector(A, vectorB):
+    number_of_rows_A = len(A)
+    number_of_columns_vector = range(len(vectorB))
+    result = [0.0 for _ in range(number_of_rows_A)]
 
-  if A.shape == matrixB.shape:
-    if (A == matrixB).all():
-          return True
+    for i in range(number_of_rows_A):
+        sum = 0
+        for j in number_of_columns_vector:
+            sum += A[i][j]*vectorB[j]
+        result[i] = sum
+    return result
+
+def isSymetric(A):
+    A = np.matrix(A)
+    matrixB = A.transpose()
+
+    if A.shape == matrixB.shape:
+        if (A == matrixB).all():
+            return True
+        else:
+            return False    
     else:
-        return False    
-  else:
-      return False
+        return False
