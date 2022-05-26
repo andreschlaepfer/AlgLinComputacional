@@ -121,17 +121,6 @@ def pMatrixGen(A, i, j):
   p[j][j] = math.cos(phi)
   return p
 
-def multiply_matrix_vector(A, vectorB):
-    number_of_rows_A = len(A)
-    number_of_columns_vector = range(len(vectorB))
-    result = [0.0 for _ in range(number_of_rows_A)]
-
-    for i in range(number_of_rows_A):
-        sum = 0
-        for j in number_of_columns_vector:
-            sum += A[i][j]*vectorB[j]
-        result[i] = sum
-    return result
 
 def isSymetric(A):
     A = np.matrix(A)
