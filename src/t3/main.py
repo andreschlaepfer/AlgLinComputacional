@@ -1,13 +1,17 @@
 from src.t3.methods.interpolation import Interpolation
 from src.t3.methods.regression import Regression
+from src.utils.file_reader import getMatrixA
 
 def main():
     icod = int(input('ICOD: '))
-    n = int(input('Número de pontos: '))
-    points = []
-    for i in range(n):
-        x, y = map(float, input("Pontos X e Y: ").split())
-        points.append([x,y])
+    # n = int(input('Número de pontos: '))
+    matrix_A_file_path = input('Arquivo de entrada de pontos X, Y: ')
+    points = getMatrixA(matrix_A_file_path)
+    
+    ##points = []
+    ##for i in range(n):
+       ## x, y = map(float, input("Pontos X e Y: ").split())
+        ##points.append([x,y])
 
     xp = float(input('Para qual X deseja calcular o valor Y?: '))
     

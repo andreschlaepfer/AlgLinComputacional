@@ -1,4 +1,3 @@
-from numpy import full
 from src.utils.file_reader import getMatrixA, getVectorB
 from src.t1.methods.lu import LU
 from src.t1.methods.cholesky import Cholesky
