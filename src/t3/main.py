@@ -22,7 +22,7 @@ def main():
 
     elif(icod == 2):
         regression_solution = Regression(points)
-        result = regression_solution.linear_regression(xp)
+        result = regression_solution.linear_regression2(xp)
         feedback = regression_solution.feedback
 
     output_file_path = input('Arquivo de saída: ')
